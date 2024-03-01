@@ -1,4 +1,4 @@
-import { Metadata } from "next"
+import { Metadata, type Viewport } from "next"
 
 import { siteConfig } from "@/config/site"
 
@@ -26,10 +26,6 @@ export const homeMeta: Metadata = {
     },
   ],
   creator: "M Hamza Iqbal",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "black" },
-  ],
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
@@ -51,4 +47,11 @@ export const homeMeta: Metadata = {
     images: "/master.png",
     creator: "@Hamza",
   },
+}
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "cyan" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
 }
