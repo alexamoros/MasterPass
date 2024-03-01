@@ -4,10 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbo",
-    "build": "pnpm run generate && pnpm run deploy",
+    "build": "npx prisma generate && next build",
     "start": "next start",
-    "generate": "npx prisma generate",
-    "deploy": "npx prisma migrate deploy",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "preview": "next build && next start",
