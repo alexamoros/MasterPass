@@ -1,3 +1,5 @@
+import { getPasswords } from "@/actions/get-passwords"
+
 import { EmptyPlaceholder } from "@/components/Common/empty-placeholder"
 import { Password } from "@/components/Dashboard/Table/password-listing"
 import { DashboardHeader } from "@/components/Dashboard/dashboard-header"
@@ -9,15 +11,8 @@ export const metadata = {
 }
 
 async function getData() {
-  const res = await import("../../api/password/_route")
-
-  const data = await await res.GET()
-
-  if (!data.ok) {
-    console.log(data.statusText)
-  }
-
-  return data.json()
+  const data = await getPasswords()
+  return data.result
 }
 
 export default async function Dashboard() {

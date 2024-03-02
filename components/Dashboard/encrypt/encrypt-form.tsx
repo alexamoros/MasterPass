@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { getPassword } from "@/actions/get-password"
+import { savePassword } from "@/actions/save-password"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AlertCircle } from "lucide-react"
 import { useForm } from "react-hook-form"
@@ -52,15 +54,13 @@ export const EncryptionForm = ({ action, id }: props) => {
 
   const fetchDetails = async (id: string) => {
     try {
-      const res = await fetch(`/api/password/${id}`, {
-        method: "GET",
-      })
-
-      if (!res?.ok) {
+      const res = await getPassword(id)
+      console.log(res)
+      if (res?.error) {
         throw new Error("Error fetching data")
       }
 
-      const data = await formSchema.parse(await res.json())
+      const data = await formSchema.parse(res.result)
 
       setPasswordDetails(data)
       form.setValue("email", data?.email)
@@ -68,7 +68,6 @@ export const EncryptionForm = ({ action, id }: props) => {
       form.setValue("username", data?.username)
       form.setValue("website", data?.website)
     } catch (error) {
-      console.log(error)
       throw new Error("Something went wrong")
     }
   }
@@ -114,17 +113,13 @@ export const EncryptionForm = ({ action, id }: props) => {
         SetLoading(true)
         const data = formSchema.parse(values)
 
-        const res = await fetch(`/api/password`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ...data }),
-        })
+        const res = await savePassword(data)
 
-        if (!res.ok) {
-          throw new Error(res.statusText)
+        if (res?.error) {
+          throw new Error(res.message)
         }
 
-        const { message } = await res.json()
+        const { message } = await res
         SetAlert(alertType.success)
         SetAlertMessage(message + " redirecting in 3s.")
         form.reset()

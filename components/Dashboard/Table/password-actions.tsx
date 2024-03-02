@@ -3,6 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { deletePassword } from "@/actions/delete-password"
 
 import {
   AlertDialog,
@@ -25,11 +26,9 @@ import { toast } from "@/components/ui/use-toast"
 import { Icons } from "@/components/icons"
 
 async function deletePost(id: string) {
-  const response = await fetch(`/api/password/${id}`, {
-    method: "DELETE",
-  })
+  const response = await deletePassword(id)
 
-  if (!response?.ok) {
+  if (response?.error) {
     toast({
       title: "Something went wrong.",
       description: "Your password was not deleted. Please try again.",
