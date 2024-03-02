@@ -41,6 +41,7 @@ export default withAuth(
   }
 )
 
+// Don't invoke Middleware on some paths (clerk regular expression)
 export const config = {
-  matcher: ["/dashboard/:path*", "/Login"],
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
 }
