@@ -18,16 +18,16 @@ export function SiteFooter({ className }: React.HTMLAttributes<HTMLElement>) {
               rel="noreferrer"
               className="font-medium underline underline-offset-4"
             >
-              Hamza Iqbal
+              Alejandro Amorós López
             </a>
-            . Hosted on{" "}
+            . Based on{" "}
             <a
-              href="https://vercel.com"
+              href="https://github.com/mHamzaIqbal1998/MasterPass"
               target="_blank"
               rel="noreferrer"
               className="font-medium underline underline-offset-4"
             >
-              Vercel
+              MasterPass
             </a>
             . The source code is available on{" "}
             <a

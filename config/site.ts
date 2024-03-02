@@ -10,7 +10,7 @@ export const siteConfig = {
     },
   ],
   links: {
-    github: "https://github.com/mHamzaIqbal1998/MasterPass",
+    github: "https://github.com/alexamoros",
   },
-  url: "https://masterpass.vercel.app",
+  url: "https://masterpassv2.vercel.app",
 }

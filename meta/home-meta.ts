@@ -21,11 +21,11 @@ export const homeMeta: Metadata = {
   ],
   authors: [
     {
-      name: "M Hamza Iqbal",
-      url: "https://github.com/mHamzaIqbal1998",
+      name: "Alejandro Amorós López",
+      url: "https://github.com/alexamoros",
     },
   ],
-  creator: "M Hamza Iqbal",
+  creator: "Alejandro Amorós López",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon-16x16.png",
