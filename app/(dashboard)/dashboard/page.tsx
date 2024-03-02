@@ -12,7 +12,11 @@ export const metadata = {
 
 async function getData() {
   const data = await getPasswords()
-  return data.result
+  if (data.result) {
+    return data.result
+  } else {
+    return data.error
+  }
 }
 
 export default async function Dashboard() {
@@ -23,9 +27,9 @@ export default async function Dashboard() {
         <SavePasswordButton />
       </DashboardHeader>
       <div>
-        {passwords?.length ? (
+        {Array.isArray(passwords) && passwords.length ? (
           <div className="divide-y divide-border rounded-md border">
-            {passwords.map((password) => (
+            {passwords.map((password: any) => (
               <Password password={password} key={password.id} />
             ))}
           </div>
