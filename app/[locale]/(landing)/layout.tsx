@@ -6,6 +6,9 @@ import initTranslations from "@/app/i18n"
 
 interface MarketingLayoutProps {
   children: React.ReactNode
+  params: {
+    locale: string
+  }
 }
 
 const i18nNamespaces = ["home", "common"]

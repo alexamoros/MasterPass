@@ -1,23 +1,16 @@
 import i18nConfig from "@/i18nConfig"
+import i18n from "i18next"
 import I18nInstance, { Resource, createInstance } from "i18next"
 import resourcesToBackend from "i18next-resources-to-backend"
 import moment from "moment"
 import { initReactI18next } from "react-i18next/initReactI18next"
 
-interface InitTranslationsProps {
-  locale: string
-  namespaces: string[]
-  i18nInstance?: typeof I18nInstance
-  resources?: Resource
-}
-
 export default async function initTranslations(
-  locale,
-  namespaces,
-  i18nInstance,
-  resources
-): Promise<InitTranslationsProps> {
-  i18nInstance = i18nInstance || createInstance()
+  locale: string,
+  namespaces: string[],
+  resources?: Resource
+) {
+  const i18nInstance = i18n.createInstance()
 
   i18nInstance.use(initReactI18next)
 
