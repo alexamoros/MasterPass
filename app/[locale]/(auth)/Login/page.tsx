@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import Link from "next/link"
 import { loginMeta } from "@/meta"
+import { useTranslation } from "react-i18next"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
@@ -14,7 +15,8 @@ export const metadata: Metadata = loginMeta
 const i18nNamespaces = ["home", "common", "dashboard", "encrypt_form"]
 
 export default async function LoginPage() {
-  const { t, resources } = await initTranslations(locale, i18nNamespaces)
+  const { t } = useTranslation()
+  const { resources } = await initTranslations(locale, i18nNamespaces)
   return (
     <TranslationsProvider
       resources={resources}
