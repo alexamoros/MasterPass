@@ -2,6 +2,7 @@
 
 import React from "react"
 import { signIn } from "next-auth/react"
+import { useTranslation } from "react-i18next"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
@@ -10,6 +11,7 @@ import { Icons } from "@/components/icons"
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
+  const { t } = useTranslation()
   const [isGitHubLoading, setIsGitHubLoading] = React.useState<boolean>(false)
   const [isGoogleLoading, setIsGoogleLoading] = React.useState<boolean>(false)
 
@@ -21,7 +23,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         </div>
         <div className="relative flex justify-center text-xs uppercase">
           <span className="bg-background px-2 text-muted-foreground">
-            Continue with
+            {t("home:continue_with")}
           </span>
         </div>
       </div>

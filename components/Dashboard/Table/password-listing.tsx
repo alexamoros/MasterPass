@@ -1,13 +1,22 @@
+"use client"
+
 import Link from "next/link"
 import { PasswordTableType } from "@/types"
-import moment from "moment"
+import { useTranslation } from "react-i18next"
 
-import { PasswordActions } from "./password-actions"
+import { PasswordActions } from "@/components/Dashboard/Table/password-actions"
+
+import "moment/locale/es"
+import moment from "moment"
 
 type props = {
   password: PasswordTableType
 }
+
 export function Password({ password }: props) {
+  const { t, i18n } = useTranslation()
+  moment.locale(i18n.language)
+  const time = moment(new Date(password.updatedAt)).fromNow()
   return (
     <div className="flex items-center justify-between p-4">
       <div className="grid gap-1">
@@ -19,9 +28,7 @@ export function Password({ password }: props) {
         </Link>
         <div>
           <p className="text-sm text-muted-foreground">
-            {moment(
-              moment(password.updatedAt).utc(true).format("YYYY-MM-DD HH:mm:ss")
-            ).fromNow()}
+            {t("dashboard:updated")} {time}
           </p>
         </div>
       </div>

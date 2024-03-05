@@ -7,6 +7,7 @@ import { savePassword } from "@/actions/save-password"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AlertCircle } from "lucide-react"
 import { useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
 import * as z from "zod"
 
 import { formSchema } from "@/types/encrypt-form"
@@ -42,6 +43,7 @@ type props = {
 type formType = z.infer<typeof formSchema>
 
 export const EncryptionForm = ({ action, id }: props) => {
+  const { t } = useTranslation()
   const Id = id
   const [selectedAction, SetSelectedAction] = useState<actions>(action)
   const [isPasswordShow, SetPasswordShow] = useState<boolean>(false)
@@ -115,13 +117,9 @@ export const EncryptionForm = ({ action, id }: props) => {
 
         const res = await savePassword(data)
 
-        if (res?.error) {
-          throw new Error(res.message)
-        }
-
         const { message } = await res
         SetAlert(alertType.success)
-        SetAlertMessage(message + " redirecting in 3s.")
+        SetAlertMessage(`${message}`)
         form.reset()
         SetLoading(false)
         setTimeout(() => {
@@ -159,8 +157,12 @@ export const EncryptionForm = ({ action, id }: props) => {
             {alert !== alertType.none && (
               <AlertMenu
                 Icon={AlertCircle}
-                title={alert === alertType.error ? "Error" : "Success"}
-                description={alertMessage}
+                title={
+                  alert === alertType.error
+                    ? t("encrypt_form:error")
+                    : t("encrypt_form:success")
+                }
+                description={t(alertMessage)}
                 variant={alert === alertType.error ? "destructive" : "default"}
               />
             )}
@@ -174,9 +176,12 @@ export const EncryptionForm = ({ action, id }: props) => {
                   name="username"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Username *</FormLabel>
+                      <FormLabel>{t("encrypt_form:username")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="username" {...field} />
+                        <Input
+                          placeholder={t("encrypt_form:username_placeholder")}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -187,9 +192,12 @@ export const EncryptionForm = ({ action, id }: props) => {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel>{t("encrypt_form:email")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="xyz@email.com" {...field} />
+                        <Input
+                          placeholder={t("encrypt_form:email_placeholder")}
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -200,7 +208,7 @@ export const EncryptionForm = ({ action, id }: props) => {
                   name="website"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Website</FormLabel>
+                      <FormLabel>{t("encrypt_form:website")}</FormLabel>
                       <FormControl>
                         <Input placeholder="Facebook" {...field} />
                       </FormControl>
@@ -213,11 +221,11 @@ export const EncryptionForm = ({ action, id }: props) => {
                   name="encryptedPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Password * </FormLabel>
+                      <FormLabel>{t("encrypt_form:password")}</FormLabel>
                       <FormControl>
                         <div className="flex items-center">
                           <Input
-                            placeholder="Password"
+                            placeholder={t("encrypt_form:password_placeholder")}
                             type={isPasswordShow ? "text" : "password"}
                             {...field}
                           />
@@ -237,9 +245,7 @@ export const EncryptionForm = ({ action, id }: props) => {
                       <FormMessage />
                       {action === actions.decrypt && !canDecrypt && (
                         <FormDescription>
-                          Incase your password doesn&apos;t appear in password
-                          field after decryption your master password is
-                          incorrect try to refresh and decrypt again.
+                          {t("encrypt_form:decrypt_error")}
                         </FormDescription>
                       )}
                     </FormItem>
@@ -260,7 +266,7 @@ export const EncryptionForm = ({ action, id }: props) => {
                 )}
                 {selectedAction === actions.encrypt ? (
                   <Button type="submit" disabled={!isEncrypted}>
-                    Submit
+                    {t("encrypt_form:submit")}
                   </Button>
                 ) : (
                   ""
@@ -272,7 +278,7 @@ export const EncryptionForm = ({ action, id }: props) => {
                       router.replace("/dashboard")
                     }}
                   >
-                    Exit
+                    {t("encrypt_form:cancel")}
                   </Button>
                 ) : (
                   ""

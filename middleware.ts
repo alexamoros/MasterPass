@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server"
+import i18nConfig from "@/i18nConfig.js"
 import { getToken } from "next-auth/jwt"
 import { withAuth } from "next-auth/middleware"
+import { i18nRouter } from "next-i18n-router"
 
 export default withAuth(
   async function middleware(req) {
@@ -28,6 +30,8 @@ export default withAuth(
         new URL(`/Login?from=${encodeURIComponent(from)}`, req.url)
       )
     }
+
+    return i18nRouter(req, i18nConfig)
   },
   {
     callbacks: {

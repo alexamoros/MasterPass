@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { User } from "next-auth"
 import { signOut } from "next-auth/react"
+import { useTranslation } from "react-i18next"
 
 import {
   DropdownMenu,
@@ -19,6 +20,7 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
+  const { t } = useTranslation()
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -40,22 +42,25 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/dashboard">Manage Passwords</Link>
+          <Link href="/dashboard">{t("dashboard:side_item1")}</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/save/encrypt">Save Password</Link>
+          <Link href="/dashboard/save/encrypt">
+            {t("dashboard:side_item2")}
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer"
-          onSelect={(event) => {
+          onClick={(event) => {
             event.preventDefault()
             signOut({
+              redirect: false,
               callbackUrl: `${window.location.origin}/Login`,
             })
           }}
         >
-          Sign out
+          {t("common:logout")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

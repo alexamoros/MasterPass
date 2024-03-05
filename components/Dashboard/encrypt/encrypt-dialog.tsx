@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { DialogPortal } from "@radix-ui/react-dialog"
 import { useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
 import * as z from "zod"
 
 import { masterPassSchema } from "@/types/encrypt-form"
@@ -49,6 +50,7 @@ const EncryptDIalog = ({
   canDecrypt,
   SetCanDecrypt,
 }: Props) => {
+  const { t } = useTranslation()
   const [isOpen, SetOpen] = useState(false)
 
   const form = useForm<z.infer<typeof masterPassSchema>>({
@@ -63,7 +65,7 @@ const EncryptDIalog = ({
       form.getValues("masterPassword").length < 8 &&
       form.getValues("masterPassword") !== ""
     ) {
-      form.setError("masterPassword", { message: PASSWORD_MIN_LENGTH })
+      form.setError("masterPassword", { message: t(PASSWORD_MIN_LENGTH) })
     } else {
       form.clearErrors("masterPassword")
     }
@@ -103,29 +105,31 @@ const EncryptDIalog = ({
   const onClose = () => {
     form.resetField("masterPassword")
   }
+
   return (
     <Dialog open={isOpen} onOpenChange={SetOpen} defaultOpen={false}>
-      <DialogTrigger>
-        <Button
-          disabled={
-            action === actions.encrypt
-              ? !canEncrypt || isEncrypted
-              : !canDecrypt
-          }
-          onClick={() => {
-            SetOpen(true)
-          }}
-        >
-          {action === actions.encrypt ? "Encrypt" : "Decrypt"}
-        </Button>
-      </DialogTrigger>
+      <Button
+        disabled={
+          action === actions.encrypt ? !canEncrypt || isEncrypted : !canDecrypt
+        }
+        onClick={() => {
+          SetOpen(true)
+        }}
+        asChild={true}
+      >
+        <DialogTrigger>
+          {action === actions.encrypt
+            ? t("dashboard:encrypt")
+            : t("dashboard:decrypt")}
+        </DialogTrigger>
+      </Button>
+
       <DialogPortal container={document.body}>
         <DialogContent onCloseAutoFocus={onClose}>
           <DialogHeader>
-            <DialogTitle>Encrypt your password</DialogTitle>
+            <DialogTitle>{t("encrypt_form:encrypt")}</DialogTitle>
             <DialogDescription>
-              Enter a strong master password to encrypt your password before
-              storing.
+              {t("encrypt_form:encrypt_description")}
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -136,10 +140,10 @@ const EncryptDIalog = ({
                   name="masterPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Master Password</FormLabel>
+                      <FormLabel>MasterPass</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder="Master assword"
+                          placeholder={t("encrypt_form:masterpass_placeholder")}
                           type={"password"}
                           {...field}
                         />
@@ -150,7 +154,9 @@ const EncryptDIalog = ({
                 />
                 <DialogFooter>
                   <Button type="button" className="mt-6" onClick={onSubmit}>
-                    {action === actions.encrypt ? "Encrypt" : "Decrypt"}
+                    {action === actions.encrypt
+                      ? t("dashboard:encrypt")
+                      : t("dashboard:decrypt")}
                   </Button>
                 </DialogFooter>
               </Form>

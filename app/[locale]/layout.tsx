@@ -1,6 +1,7 @@
 import "@/styles/globals.css"
 import { Metadata } from "next"
 import { Inter as FontSans } from "next/font/google"
+import i18nConfig from "@/i18nConfig"
 import { homeMeta } from "@/meta"
 import { Analytics } from "@vercel/analytics/react"
 
@@ -20,6 +21,10 @@ export const metadata: Metadata = homeMeta
 
 interface RootLayoutProps {
   children: React.ReactNode
+}
+
+export function generateStaticParams() {
+  return i18nConfig.locales.map((locale) => ({ locale }))
 }
 
 export default function RootLayout({ children }: RootLayoutProps) {
