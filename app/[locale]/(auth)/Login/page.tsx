@@ -1,6 +1,6 @@
-import { Metadata } from "next"
+"use client"
+
 import Link from "next/link"
-import { loginMeta } from "@/meta"
 import { useTranslation } from "react-i18next"
 
 import { cn } from "@/lib/utils"
@@ -9,8 +9,6 @@ import { Icons } from "@/components/icons"
 import TranslationsProvider from "@/components/translations-provider"
 import { UserAuthForm } from "@/components/user-auth-form"
 import initTranslations from "@/app/i18n"
-
-export const metadata: Metadata = loginMeta
 
 const i18nNamespaces = ["home", "common", "dashboard", "encrypt_form"]
 
