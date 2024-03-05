@@ -7,6 +7,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import TranslationsProvider from "@/components/translations-provider"
 import { UserAuthForm } from "@/components/user-auth-form"
+import initTranslations from "@/app/i18n"
 
 export const metadata: Metadata = loginMeta
 
