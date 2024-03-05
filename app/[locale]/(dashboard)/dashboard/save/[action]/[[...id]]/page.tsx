@@ -15,7 +15,9 @@ interface PageProps {
 
 const i18nNamespaces = ["home", "common", "dashboard", "encrypt_form"]
 
-export async function page({ params: { action, id, locale } }: PageProps) {
+export default async function DashboardPage({
+  params: { action, id, locale },
+}: PageProps) {
   const { t, resources } = await initTranslations(locale, i18nNamespaces)
   return (
     <TranslationsProvider
@@ -35,5 +37,3 @@ export async function page({ params: { action, id, locale } }: PageProps) {
     </TranslationsProvider>
   )
 }
-
-export default page
