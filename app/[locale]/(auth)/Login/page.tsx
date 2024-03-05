@@ -13,8 +13,7 @@ import initTranslations from "@/app/i18n"
 const i18nNamespaces = ["home", "common", "dashboard", "encrypt_form"]
 
 export default async function LoginPage({ params: { locale } }) {
-  const { t } = useTranslation()
-  const { resources } = await initTranslations(locale, i18nNamespaces)
+  const { t, resources } = await initTranslations(locale, i18nNamespaces)
   return (
     <TranslationsProvider
       resources={resources}
