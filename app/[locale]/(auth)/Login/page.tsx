@@ -1,15 +1,15 @@
 "use server"
 
 import Link from "next/link"
-import { useTranslation } from "react-i18next"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import { UserAuthForm } from "@/components/user-auth-form"
+import initTranslations from "@/app/i18n"
 
-export default async function LoginPage() {
-  const { t } = useTranslation()
+export default async function LoginPage({ params: { locale } }) {
+  const { t } = await initTranslations(locale, ["home"])
   return (
     <section className="space-y-6 pb-8  pt-[25%] sm:pt-[15%] md:pb-12 lg:py-32 lg:pt-[12%]">
       <Link
