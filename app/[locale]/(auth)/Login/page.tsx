@@ -1,7 +1,6 @@
-"use client"
+"use server"
 
 import Link from "next/link"
-import { useTranslation } from "react-i18next"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
@@ -15,11 +14,11 @@ const i18nNamespaces = ["home", "common", "dashboard", "encrypt_form"]
 export default async function LoginPage({ params: { locale } }) {
   const { t, resources } = await initTranslations(locale, i18nNamespaces)
   return (
-    <TranslationsProvider
+    {/*<TranslationsProvider
       resources={resources}
       locale={locale}
       namespaces={i18nNamespaces}
-    >
+  >*/}
       <section className="space-y-6 pb-8  pt-[25%] sm:pt-[15%] md:pb-12 lg:py-32 lg:pt-[12%]">
         <Link
           href="/"
@@ -44,6 +43,6 @@ export default async function LoginPage({ params: { locale } }) {
           </div>
         </div>
       </section>
-    </TranslationsProvider>
+    {/*</TranslationsProvider>*/}
   )
 }

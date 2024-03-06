@@ -11,6 +11,9 @@ import { AuthProvider } from "@/components/auth-provider"
 import ProgressProvider from "@/components/progress-indicator"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+import TranslationsProvider from "@/components/translations-provider"
+
+import initTranslations from "../i18n"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -21,36 +24,53 @@ export const metadata: Metadata = homeMeta
 
 interface RootLayoutProps {
   children: React.ReactNode
+  params: { locale: string }
 }
 
 export function generateStaticParams() {
   return i18nConfig.locales.map((locale) => ({ locale }))
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+const i18nNamespaces = ["home", "common", "dashboard", "encrypt_form"]
+
+export default async function RootLayout({
+  params: { locale },
+  children,
+}: RootLayoutProps) {
+  const { resources } = await initTranslations(locale, i18nNamespaces)
   return (
     <>
-      <html className="scroll-smooth" lang="en" suppressHydrationWarning>
-        {/* eslint-disable-next-line @next/next/no-head-element */}
-        <head />
-        <body
-          className={cn(
-            "min-h-screen bg-background font-sans antialiased",
-            fontSans.variable
-          )}
-        >
-          <AuthProvider>
-            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <ProgressProvider>
-                {children}
-                <TailwindIndicator />
-              </ProgressProvider>
-            </ThemeProvider>
-            <ScrollToTop />
-          </AuthProvider>
-          <Analytics />
-        </body>
-      </html>
+      <TranslationsProvider
+        resources={resources}
+        locale={locale}
+        namespaces={i18nNamespaces}
+      >
+        <html className="scroll-smooth" lang="en" suppressHydrationWarning>
+          {/* eslint-disable-next-line @next/next/no-head-element */}
+          <head />
+          <body
+            className={cn(
+              "min-h-screen bg-background font-sans antialiased",
+              fontSans.variable
+            )}
+          >
+            <AuthProvider>
+              <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem
+              >
+                <ProgressProvider>
+                  {children}
+                  <TailwindIndicator />
+                </ProgressProvider>
+              </ThemeProvider>
+              <ScrollToTop />
+            </AuthProvider>
+            <Analytics />
+          </body>
+        </html>
+      </TranslationsProvider>
     </>
   )
 }
