@@ -1,9 +1,10 @@
-import { useTranslation } from "react-i18next"
+"use server"
 
 import { actions } from "@/lib/Constants"
 import { DashboardHeader } from "@/components/Dashboard/dashboard-header"
 import { DashboardShell } from "@/components/Dashboard/dashboard-shell"
 import { EncryptionForm } from "@/components/Dashboard/encrypt/encrypt-form"
+import initTranslations from "@/app/i18n"
 
 interface PageProps {
   params: {
@@ -14,9 +15,9 @@ interface PageProps {
 }
 
 export default async function DashboardPage({
-  params: { action, id },
+  params: { action, id, locale },
 }: PageProps) {
-  const { t } = useTranslation()
+  const { t } = await initTranslations(locale, ["dashboard"])
   return (
     <DashboardShell>
       <DashboardHeader

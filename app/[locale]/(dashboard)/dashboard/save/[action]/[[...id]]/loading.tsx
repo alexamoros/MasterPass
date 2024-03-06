@@ -1,9 +1,10 @@
+"use client"
+
 import { useTranslation } from "react-i18next"
 
 import FormSkelton from "@/components/Dashboard/Loading/form-skelton"
 import { DashboardHeader } from "@/components/Dashboard/dashboard-header"
 import { DashboardShell } from "@/components/Dashboard/dashboard-shell"
-import TranslationsProvider from "@/components/translations-provider"
 
 export default function EncryptionLoading() {
   const { t } = useTranslation()
