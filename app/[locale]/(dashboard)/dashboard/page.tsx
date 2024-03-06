@@ -1,16 +1,15 @@
 "use server"
 
-import { useTranslation } from "react-i18next"
-
 import { EmptyPlaceholder } from "@/components/Common/empty-placeholder"
 import { Password } from "@/components/Dashboard/Table/password-listing"
 import { DashboardHeader } from "@/components/Dashboard/dashboard-header"
 import { DashboardShell } from "@/components/Dashboard/dashboard-shell"
 import { SavePasswordButton } from "@/components/Dashboard/save-password-btn"
+import initTranslations from "@/app/i18n"
 import { getData } from "@/app/page.server"
 
-export default async function Dashboard() {
-  const { t } = useTranslation()
+export default async function Dashboard({ params: { locale } }) {
+  const { t } = await initTranslations(locale, ["dashboard"])
   const passwords = await getData()
   return (
     <DashboardShell>
