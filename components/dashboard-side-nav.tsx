@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useTranslations } from "next-intl"
 
 import { SidebarNavItem } from "types"
 import { cn } from "@/lib/utils"
@@ -12,6 +13,7 @@ interface DashboardNavProps {
 }
 
 export function DashboardNav({ items }: DashboardNavProps) {
+  const t = useTranslations("dashboard")
   const path = usePathname()
 
   if (!items?.length) {
@@ -33,7 +35,7 @@ export function DashboardNav({ items }: DashboardNavProps) {
                 )}
               >
                 <Icon className="mr-2 h-4 w-4" />
-                <span>{item.title}</span>
+                <span>{t(item.title)}</span>
               </span>
             </Link>
           )

@@ -3,6 +3,7 @@ import { Metadata } from "next"
 import { Inter as FontSans } from "next/font/google"
 import { homeMeta } from "@/meta"
 import { Analytics } from "@vercel/analytics/react"
+import { NextIntlClientProvider, useMessages } from "next-intl"
 
 import { cn } from "@/lib/utils"
 import { ScrollToTop } from "@/components/Common/scroll-top"
@@ -20,12 +21,18 @@ export const metadata: Metadata = homeMeta
 
 interface RootLayoutProps {
   children: React.ReactNode
+  params: { locale: string }
 }
 
-export default function RootLayout({ children }: RootLayoutProps) {
+export default function RootLayout({
+  params: { locale },
+  children,
+}: RootLayoutProps) {
+  // Receive messages provided in i18n.ts
+  const messages = useMessages()
   return (
     <>
-      <html className="scroll-smooth" lang="en" suppressHydrationWarning>
+      <html className="scroll-smooth" lang={locale} suppressHydrationWarning>
         {/* eslint-disable-next-line @next/next/no-head-element */}
         <head />
         <body
@@ -37,7 +44,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
           <AuthProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
               <ProgressProvider>
-                {children}
+                <NextIntlClientProvider locale={locale} messages={messages}>
+                  {children}
+                </NextIntlClientProvider>
                 <TailwindIndicator />
               </ProgressProvider>
             </ThemeProvider>

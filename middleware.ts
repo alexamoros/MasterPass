@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server"
 import { getToken } from "next-auth/jwt"
 import { withAuth } from "next-auth/middleware"
+import createMiddleware from "next-intl/middleware"
+
+const nextIntlMiddleware = createMiddleware({
+  locales: ["en", "es"],
+  defaultLocale: "es",
+})
 
 export default withAuth(
   async function middleware(req) {
@@ -28,6 +34,8 @@ export default withAuth(
         new URL(`/Login?from=${encodeURIComponent(from)}`, req.url)
       )
     }
+    // Apply next-intl middleware
+    return nextIntlMiddleware(req)
   },
   {
     callbacks: {

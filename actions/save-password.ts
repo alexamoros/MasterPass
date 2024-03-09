@@ -31,7 +31,7 @@ export const savePassword = async (data: unknown) => {
     })
 
     return {
-      message: "Successfully Saved the password",
+      message: "success_msg",
     }
   } catch (error) {
     if (error instanceof z.ZodError) {

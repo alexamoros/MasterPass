@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 
 import { NavItemType } from "types"
 import { siteConfig } from "@/config/site"
@@ -17,6 +18,7 @@ interface MainNavProps {
 }
 
 export function SiteHeader({ items, children }: MainNavProps) {
+  const t = useTranslations("home")
   const [showMobileMenu, setShowMobileMenu] = React.useState<boolean>(false)
 
   return (
@@ -40,7 +42,7 @@ export function SiteHeader({ items, children }: MainNavProps) {
                   item.disabled && "cursor-not-allowed opacity-80"
                 )}
               >
-                {item.title}
+                {t(item.title)}
               </Link>
             ))}
           </nav>

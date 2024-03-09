@@ -32,5 +32,9 @@ yarn-error.log*
 # turbo
 .turbo
 
+# messages
+public/locales
+messages
+
 .contentlayer
 .env

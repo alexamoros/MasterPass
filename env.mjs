@@ -10,6 +10,7 @@ export const env = createEnv({
     DATABASE_URL: z.string().min(1),
     GOOGLE_ID: z.string().min(1),
     GOOGLE_SECRET: z.string().min(1),
+    I18NEXUS_API_KEY: z.string().min(1),
   },
   client: {
     NEXT_PUBLIC_APP_URL: z.string().min(1),
@@ -23,5 +24,6 @@ export const env = createEnv({
     GOOGLE_ID: process.env.GOOGLE_ID,
     GOOGLE_SECRET: process.env.GOOGLE_SECRET,
     NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
+    I18NEXUS_API_KEY: process.env.I18NEXUS_API_KEY,
   },
 })
