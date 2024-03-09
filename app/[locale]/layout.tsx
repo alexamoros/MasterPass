@@ -1,10 +1,9 @@
 import "@/styles/globals.css"
 import { Metadata } from "next"
 import { Inter as FontSans } from "next/font/google"
-import i18nConfig from "@/i18nConfig"
 import { homeMeta } from "@/meta"
 import { Analytics } from "@vercel/analytics/react"
-import { dir } from "i18next"
+import { NextIntlClientProvider, useMessages } from "next-intl"
 
 import { cn } from "@/lib/utils"
 import { ScrollToTop } from "@/components/Common/scroll-top"
@@ -12,9 +11,6 @@ import { AuthProvider } from "@/components/auth-provider"
 import ProgressProvider from "@/components/progress-indicator"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
-import TranslationsProvider from "@/components/translations-provider"
-
-import initTranslations from "../i18n"
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -28,25 +24,15 @@ interface RootLayoutProps {
   params: { locale: string }
 }
 
-export async function generateStaticParams() {
-  return i18nConfig.locales.map((locale) => ({ locale }))
-}
-
-const i18nNamespaces = ["home", "common", "dashboard", "encrypt_form"]
-
-export default async function RootLayout({
+export default function RootLayout({
   params: { locale },
   children,
 }: RootLayoutProps) {
-  const { resources } = await initTranslations(locale, i18nNamespaces)
+  // Receive messages provided in i18n.ts
+  const messages = useMessages()
   return (
     <>
-      <html
-        className="scroll-smooth"
-        lang={locale}
-        dir={dir(locale)}
-        suppressHydrationWarning
-      >
+      <html className="scroll-smooth" lang={locale} suppressHydrationWarning>
         {/* eslint-disable-next-line @next/next/no-head-element */}
         <head />
         <body
@@ -57,16 +43,12 @@ export default async function RootLayout({
         >
           <AuthProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <TranslationsProvider
-                resources={resources}
-                locale={locale}
-                namespaces={i18nNamespaces}
-              >
-                <ProgressProvider>
+              <ProgressProvider>
+                <NextIntlClientProvider locale={locale} messages={messages}>
                   {children}
-                  <TailwindIndicator />
-                </ProgressProvider>
-              </TranslationsProvider>
+                </NextIntlClientProvider>
+                <TailwindIndicator />
+              </ProgressProvider>
             </ThemeProvider>
             <ScrollToTop />
           </AuthProvider>

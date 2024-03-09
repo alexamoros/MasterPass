@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { DialogPortal } from "@radix-ui/react-dialog"
+import { useTranslations } from "next-intl"
 import { useForm } from "react-hook-form"
-import { useTranslation } from "react-i18next"
 import * as z from "zod"
 
 import { masterPassSchema } from "@/types/encrypt-form"
@@ -50,7 +50,7 @@ const EncryptDIalog = ({
   canDecrypt,
   SetCanDecrypt,
 }: Props) => {
-  const { t } = useTranslation()
+  const t = useTranslations("encrypt_form")
   const [isOpen, SetOpen] = useState(false)
 
   const form = useForm<z.infer<typeof masterPassSchema>>({
@@ -118,19 +118,15 @@ const EncryptDIalog = ({
         asChild={true}
       >
         <DialogTrigger>
-          {action === actions.encrypt
-            ? t("dashboard:encrypt")
-            : t("dashboard:decrypt")}
+          {action === actions.encrypt ? t("encrypt") : t("decrypt")}
         </DialogTrigger>
       </Button>
 
       <DialogPortal container={document.body}>
         <DialogContent onCloseAutoFocus={onClose}>
           <DialogHeader>
-            <DialogTitle>{t("encrypt_form:encrypt")}</DialogTitle>
-            <DialogDescription>
-              {t("encrypt_form:encrypt_description")}
-            </DialogDescription>
+            <DialogTitle>{t("encrypt")}</DialogTitle>
+            <DialogDescription>{t("encrypt_description")}</DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="items-center gap-4">
@@ -143,7 +139,7 @@ const EncryptDIalog = ({
                       <FormLabel>MasterPass</FormLabel>
                       <FormControl>
                         <Input
-                          placeholder={t("encrypt_form:masterpass_placeholder")}
+                          placeholder={t("masterpass_placeholder")}
                           type={"password"}
                           {...field}
                         />
@@ -154,9 +150,7 @@ const EncryptDIalog = ({
                 />
                 <DialogFooter>
                   <Button type="button" className="mt-6" onClick={onSubmit}>
-                    {action === actions.encrypt
-                      ? t("dashboard:encrypt")
-                      : t("dashboard:decrypt")}
+                    {action === actions.encrypt ? t("encrypt") : t("decrypt")}
                   </Button>
                 </DialogFooter>
               </Form>

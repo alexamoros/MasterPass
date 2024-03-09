@@ -1,15 +1,15 @@
 "use server"
 
 import Link from "next/link"
+import { getTranslations } from "next-intl/server"
 
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Icons } from "@/components/icons"
 import { UserAuthForm } from "@/components/user-auth-form"
-import initTranslations from "@/app/i18n"
 
-export default async function LoginPage({ params: { locale } }) {
-  const { t } = await initTranslations(locale, ["home"])
+export default async function LoginPage() {
+  const t = await getTranslations("dashboard")
   return (
     <section className="space-y-6 pb-8  pt-[25%] sm:pt-[15%] md:pb-12 lg:py-32 lg:pt-[12%]">
       <Link
@@ -28,7 +28,7 @@ export default async function LoginPage({ params: { locale } }) {
           <div className="flex flex-col space-y-2 text-center">
             <Icons.logo className="mx-auto h-6 w-6" />
             <h1 className="text-2xl font-semibold tracking-tight">
-              {t("home:title")}
+              {t("title")}
             </h1>
           </div>
           <UserAuthForm />

@@ -1,29 +1,26 @@
 "use server"
 
+import { getTranslations } from "next-intl/server"
+
 import { actions } from "@/lib/Constants"
 import { DashboardHeader } from "@/components/Dashboard/dashboard-header"
 import { DashboardShell } from "@/components/Dashboard/dashboard-shell"
 import { EncryptionForm } from "@/components/Dashboard/encrypt/encrypt-form"
-import initTranslations from "@/app/i18n"
 
 interface PageProps {
   params: {
     action: string
     id: string[]
-    locale: string
   }
 }
 
 export default async function DashboardPage({
-  params: { action, id, locale },
+  params: { action, id },
 }: PageProps) {
-  const { t } = await initTranslations(locale, ["dashboard"])
+  const t = await getTranslations("dashboard")
   return (
     <DashboardShell>
-      <DashboardHeader
-        heading={t("dashboard:heading")}
-        text={t("dashboard:text")}
-      />
+      <DashboardHeader heading={t("heading")} text={t("text")} />
       <div className="grid gap-8">
         <EncryptionForm action={action as actions} id={id?.[0] ?? ""} />
       </div>

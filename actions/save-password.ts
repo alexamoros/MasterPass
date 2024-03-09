@@ -31,7 +31,7 @@ export const savePassword = async (data: unknown) => {
     })
 
     return {
-      message: "encrypt_form:success_msg",
+      message: "success_msg",
     }
   } catch (error) {
     if (error instanceof z.ZodError) {

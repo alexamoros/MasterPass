@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { User } from "next-auth"
 import { signOut } from "next-auth/react"
-import { useTranslation } from "react-i18next"
+import { useTranslations } from "next-intl"
 
 import {
   DropdownMenu,
@@ -20,7 +20,7 @@ interface UserAccountNavProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function UserAccountNav({ user }: UserAccountNavProps) {
-  const { t } = useTranslation()
+  const t = useTranslations("dashboard")
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -42,12 +42,10 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/dashboard">{t("dashboard:side_item1")}</Link>
+          <Link href="/dashboard">{t("side_item1")}</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href="/dashboard/save/encrypt">
-            {t("dashboard:side_item2")}
-          </Link>
+          <Link href="/dashboard/save/encrypt">{t("side_item2")}</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
@@ -60,7 +58,7 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
             })
           }}
         >
-          {t("common:logout")}
+          {t("logout")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

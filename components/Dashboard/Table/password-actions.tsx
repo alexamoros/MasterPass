@@ -4,7 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { deletePassword } from "@/actions/delete-password"
-import { useTranslation } from "react-i18next"
+import { useTranslations } from "next-intl"
 
 import {
   AlertDialog,
@@ -46,7 +46,7 @@ interface Props {
 }
 
 export function PasswordActions({ username, id }: Props) {
-  const { t } = useTranslation()
+  const t = useTranslations("dashboard")
   const router = useRouter()
   const [showDeleteAlert, setShowDeleteAlert] = React.useState<boolean>(false)
   const [isDeleteLoading, setIsDeleteLoading] = React.useState<boolean>(false)
@@ -56,47 +56,43 @@ export function PasswordActions({ username, id }: Props) {
       <DropdownMenu>
         <DropdownMenuTrigger className="flex h-8 w-8 items-center justify-center rounded-md border transition-colors hover:bg-muted">
           <Icons.ellipsis className="h-4 w-4" />
-          <span className="sr-only">{t("dashboard:more_btn")}</span>
+          <span className="sr-only">{t("more_btn")}</span>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
             onClick={() => navigator.clipboard.writeText(username)}
           >
-            {t("dashboard:copy_btn")}
+            {t("copy_btn")}
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <Link href={`/dashboard/save/decrypt/${id}`}>
-              {t("dashboard:view_btn")}
-            </Link>
+            <Link href={`/dashboard/save/decrypt/${id}`}>{t("view_btn")}</Link>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="flex cursor-pointer items-center text-destructive focus:text-destructive"
             onSelect={() => setShowDeleteAlert(true)}
           >
-            {t("dashboard:delete_btn")}
+            {t("delete_btn")}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
       <AlertDialog open={showDeleteAlert} onOpenChange={setShowDeleteAlert}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              {t("dashboard:delete_password")}
-            </AlertDialogTitle>
+            <AlertDialogTitle>{t("delete_password")}</AlertDialogTitle>
             <AlertDialogDescription>
-              {t("dashboard:delete_password_description")}
+              {t("delete_password_description")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>{t("dashboard:cancel_btn")}</AlertDialogCancel>
+            <AlertDialogCancel>{t("cancel_btn")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={async (event) => {
                 event.preventDefault()
                 setIsDeleteLoading(true)
-                const title = t("common:error")
-                const description = t("common:delete_error")
+                const title = t("error")
+                const description = t("delete_error")
                 const deleted = await deletePost(id, title, description)
 
                 if (deleted) {
@@ -112,7 +108,7 @@ export function PasswordActions({ username, id }: Props) {
               ) : (
                 <Icons.trash className="mr-2 h-4 w-4" />
               )}
-              <span>{t("dashboard:delete_btn")}</span>
+              <span>{t("delete_btn")}</span>
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

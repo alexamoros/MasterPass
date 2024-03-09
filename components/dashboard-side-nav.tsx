@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { useTranslation } from "react-i18next"
+import { useTranslations } from "next-intl"
 
 import { SidebarNavItem } from "types"
 import { cn } from "@/lib/utils"
@@ -13,7 +13,7 @@ interface DashboardNavProps {
 }
 
 export function DashboardNav({ items }: DashboardNavProps) {
-  const { t } = useTranslation()
+  const t = useTranslations("dashboard")
   const path = usePathname()
 
   if (!items?.length) {
