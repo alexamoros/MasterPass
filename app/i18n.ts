@@ -10,7 +10,7 @@ export default async function initTranslations(
   namespaces: string[],
   resources?: Resource
 ) {
-  const i18nInstance = i18n.createInstance()
+  const i18nInstance = createInstance()
 
   i18nInstance.use(initReactI18next)
 
@@ -18,7 +18,7 @@ export default async function initTranslations(
     i18nInstance.use(
       resourcesToBackend(
         (language: string, namespace: string) =>
-          import(`@/locales/${language}/${namespace}.json`)
+          import(`../locales/${language}/${namespace}.json`)
       )
     )
   }

@@ -4,6 +4,7 @@ import { Inter as FontSans } from "next/font/google"
 import i18nConfig from "@/i18nConfig"
 import { homeMeta } from "@/meta"
 import { Analytics } from "@vercel/analytics/react"
+import { dir } from "i18next"
 
 import { cn } from "@/lib/utils"
 import { ScrollToTop } from "@/components/Common/scroll-top"
@@ -27,7 +28,7 @@ interface RootLayoutProps {
   params: { locale: string }
 }
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return i18nConfig.locales.map((locale) => ({ locale }))
 }
 
@@ -40,37 +41,38 @@ export default async function RootLayout({
   const { resources } = await initTranslations(locale, i18nNamespaces)
   return (
     <>
-      <TranslationsProvider
-        resources={resources}
-        locale={locale}
-        namespaces={i18nNamespaces}
+      <html
+        className="scroll-smooth"
+        lang={locale}
+        dir={dir(locale)}
+        suppressHydrationWarning
       >
-        <html className="scroll-smooth" lang="en" suppressHydrationWarning>
-          {/* eslint-disable-next-line @next/next/no-head-element */}
-          <head />
-          <body
-            className={cn(
-              "min-h-screen bg-background font-sans antialiased",
-              fontSans.variable
-            )}
-          >
-            <AuthProvider>
-              <ThemeProvider
-                attribute="class"
-                defaultTheme="system"
-                enableSystem
+        {/* eslint-disable-next-line @next/next/no-head-element */}
+        <head />
+        <body
+          className={cn(
+            "min-h-screen bg-background font-sans antialiased",
+            fontSans.variable
+          )}
+        >
+          <AuthProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <TranslationsProvider
+                resources={resources}
+                locale={locale}
+                namespaces={i18nNamespaces}
               >
                 <ProgressProvider>
                   {children}
                   <TailwindIndicator />
                 </ProgressProvider>
-              </ThemeProvider>
-              <ScrollToTop />
-            </AuthProvider>
-            <Analytics />
-          </body>
-        </html>
-      </TranslationsProvider>
+              </TranslationsProvider>
+            </ThemeProvider>
+            <ScrollToTop />
+          </AuthProvider>
+          <Analytics />
+        </body>
+      </html>
     </>
   )
 }
