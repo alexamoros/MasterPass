@@ -14,7 +14,7 @@ export const authOptions: NextAuthOptions = {
     strategy: "jwt",
   },
   pages: {
-    signIn: "/login",
+    signIn: `/login`,
   },
   providers: [
     GitHubProvider({
@@ -57,6 +57,9 @@ export const authOptions: NextAuthOptions = {
         email: dbUser.email,
         picture: dbUser.image,
       }
+    },
+    async redirect({ baseUrl }) {
+      return baseUrl
     },
   },
 }
