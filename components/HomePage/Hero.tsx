@@ -27,7 +27,7 @@ export const Hero = () => {
           <p className="mt-2 max-w-[85%] text-center leading-normal text-muted-foreground sm:pl-2.5 sm:text-lg sm:leading-7 md:text-start">
             {t("description")}
           </p>
-          <Link href={"/Login"}>
+          <Link href={"/login"}>
             <Button size={"lg"} className="mt-4 text-lg sm:ml-2.5">
               {t("cta")}
             </Button>

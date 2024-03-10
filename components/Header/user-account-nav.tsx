@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { defaultLocale } from "@/i18n"
 import { User } from "next-auth"
 import { signOut } from "next-auth/react"
 import { useTranslations } from "next-intl"
@@ -53,8 +54,8 @@ export function UserAccountNav({ user }: UserAccountNavProps) {
           onClick={(event) => {
             event.preventDefault()
             signOut({
-              redirect: false,
-              callbackUrl: `${window.location.origin}/Login`,
+              redirect: true,
+              callbackUrl: "/",
             })
           }}
         >

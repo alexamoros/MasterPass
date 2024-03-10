@@ -1,41 +1,56 @@
 import { NextResponse } from "next/server"
+import { parse } from "accept-language-parser"
 import { getToken } from "next-auth/jwt"
 import { withAuth } from "next-auth/middleware"
-import createMiddleware from "next-intl/middleware"
-
-const nextIntlMiddleware = createMiddleware({
-  locales: ["en", "es"],
-  defaultLocale: "es",
-})
+import createIntlMiddleware from "next-intl/middleware"
 
 export default withAuth(
   async function middleware(req) {
+    // Step 1: Enhanced Locale Detection
+    const acceptLanguageHeader = req.headers.get("accept-language")
+    const defaultLocale = acceptLanguageHeader
+      ? parse(acceptLanguageHeader)[0]?.code
+      : "en" // Default to English
+
+    // Step 2: Authentication Logic
     const token = await getToken({ req })
     const isAuth = !!token
-    const isAuthPage =
-      req.nextUrl.pathname.startsWith("/Login") ||
-      req.nextUrl.pathname.startsWith("/register")
 
-    if (isAuthPage) {
-      if (isAuth) {
-        return NextResponse.redirect(new URL("/dashboard", req.url))
-      }
-
-      return null
+    if (
+      !isAuth &&
+      req.nextUrl.pathname.startsWith(`/${defaultLocale}/dashboard`)
+    ) {
+      return NextResponse.redirect(new URL(`/${defaultLocale}/login`, req.url))
     }
 
-    if (!isAuth) {
-      let from = req.nextUrl.pathname
-      if (req.nextUrl.search) {
-        from += req.nextUrl.search
-      }
-
-      return NextResponse.redirect(
-        new URL(`/Login?from=${encodeURIComponent(from)}`, req.url)
+    if (isAuth) {
+      const hasLocalePrefix = req.nextUrl.pathname.startsWith(
+        `/${defaultLocale}/`
       )
+
+      if (!hasLocalePrefix) {
+        return NextResponse.redirect(
+          new URL(`${defaultLocale}/dashboard`, req.url)
+        )
+      }
     }
-    // Apply next-intl middleware
-    return nextIntlMiddleware(req)
+
+    // Step 3: Root Path Handling (Landing Page)
+    if (req.nextUrl.pathname === "/") {
+      const locale = acceptLanguageHeader
+        ? parse(acceptLanguageHeader)[0]?.code
+        : defaultLocale
+      return NextResponse.redirect(new URL(`/${locale}`, req.url))
+    }
+
+    // Step 4: Conditional Internationalization Middleware
+    const handleI18nRouting = createIntlMiddleware({
+      locales: ["en", "es"],
+      defaultLocale: defaultLocale,
+      localePrefix: "always",
+    })
+
+    return handleI18nRouting(req)
   },
   {
     callbacks: {

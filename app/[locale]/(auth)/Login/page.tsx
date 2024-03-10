@@ -9,7 +9,7 @@ import { Icons } from "@/components/icons"
 import { UserAuthForm } from "@/components/user-auth-form"
 
 export default async function LoginPage() {
-  const t = await getTranslations("dashboard")
+  const t = await getTranslations("home")
   return (
     <section className="space-y-6 pb-8  pt-[25%] sm:pt-[15%] md:pb-12 lg:py-32 lg:pt-[12%]">
       <Link
@@ -28,7 +28,7 @@ export default async function LoginPage() {
           <div className="flex flex-col space-y-2 text-center">
             <Icons.logo className="mx-auto h-6 w-6" />
             <h1 className="text-2xl font-semibold tracking-tight">
-              {t("title")}
+              {t("welcome")}
             </h1>
           </div>
           <UserAuthForm />
