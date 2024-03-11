@@ -16,23 +16,26 @@ export default withAuth(
     const token = await getToken({ req })
     const isAuth = !!token
 
+    // Root Layout Restrictions for Authenticated Users with Refinement
+    const pathname = req.nextUrl.pathname
+    if (
+      isAuth &&
+      (pathname === "/" || pathname.startsWith(`/${defaultLocale}/`))
+    ) {
+      // Only redirect if not already on the dashboard
+      if (!pathname.startsWith(`/${defaultLocale}/dashboard`)) {
+        return NextResponse.redirect(
+          new URL(`${defaultLocale}/dashboard`, req.url)
+        )
+      }
+    }
+
+    //Unauthenticated Access to Dashboard
     if (
       !isAuth &&
       req.nextUrl.pathname.startsWith(`/${defaultLocale}/dashboard`)
     ) {
       return NextResponse.redirect(new URL(`/${defaultLocale}/login`, req.url))
-    }
-
-    if (isAuth) {
-      const hasLocalePrefix = req.nextUrl.pathname.startsWith(
-        `/${defaultLocale}/`
-      )
-
-      if (!hasLocalePrefix) {
-        return NextResponse.redirect(
-          new URL(`${defaultLocale}/dashboard`, req.url)
-        )
-      }
     }
 
     // Step 3: Root Path Handling (Landing Page)
