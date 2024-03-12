@@ -4,6 +4,8 @@ import { getToken } from "next-auth/jwt"
 import { withAuth } from "next-auth/middleware"
 import createIntlMiddleware from "next-intl/middleware"
 
+import { locales } from "./i18n"
+
 export default withAuth(
   async function middleware(req) {
     // Step 1: Enhanced Locale Detection
@@ -16,21 +18,21 @@ export default withAuth(
     const token = await getToken({ req })
     const isAuth = !!token
 
-    // Root Layout Restrictions for Authenticated Users with Refinement
-    const pathname = req.nextUrl.pathname
-    if (
-      isAuth &&
-      (pathname === "/" || pathname.startsWith(`/${defaultLocale}/`))
-    ) {
-      // Only redirect if not already on the dashboard
-      if (!pathname.startsWith(`/${defaultLocale}/dashboard`)) {
-        return NextResponse.redirect(
-          new URL(`${defaultLocale}/dashboard`, req.url)
-        )
+    // Step 3: Root Layout Protection for Authenticated Users
+    if (isAuth) {
+      const pathname = req.nextUrl.pathname
+
+      if (pathname === "/" || pathname.startsWith(`/${defaultLocale}/`)) {
+        // Redirect to dashboard if not already on it
+        if (!pathname.startsWith(`/${defaultLocale}/dashboard`)) {
+          return NextResponse.redirect(
+            new URL(`${defaultLocale}/dashboard`, req.url)
+          )
+        }
       }
     }
 
-    //Unauthenticated Access to Dashboard
+    // Step 4: Unauthenticated Access Restriction to Dashboard
     if (
       !isAuth &&
       req.nextUrl.pathname.startsWith(`/${defaultLocale}/dashboard`)
@@ -38,15 +40,28 @@ export default withAuth(
       return NextResponse.redirect(new URL(`/${defaultLocale}/login`, req.url))
     }
 
-    // Step 3: Root Path Handling (Landing Page)
+    // Step 5: Root Path Handling and Locale Redirects
     if (req.nextUrl.pathname === "/") {
-      const locale = acceptLanguageHeader
-        ? parse(acceptLanguageHeader)[0]?.code
-        : defaultLocale
-      return NextResponse.redirect(new URL(`/${locale}`, req.url))
+      if (!locales.includes(defaultLocale)) {
+        return NextResponse.redirect(new URL(`/${defaultLocale}`, req.url))
+      }
     }
 
-    // Step 4: Conditional Internationalization Middleware
+    // Step 6: Complex URL Handling
+    const segments = req.nextUrl.pathname.split("/")
+    let initialLocale = segments[1]
+
+    if (
+      segments.length > 2 &&
+      !locales.includes(initialLocale) &&
+      initialLocale !== "dashboard"
+    ) {
+      segments[1] = defaultLocale
+      const updatedPath = segments.join("/")
+      return NextResponse.redirect(new URL(updatedPath, req.url))
+    }
+
+    // Step 7: Conditional Internationalization Middleware
     const handleI18nRouting = createIntlMiddleware({
       locales: ["en", "es"],
       defaultLocale: defaultLocale,
