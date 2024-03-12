@@ -1,5 +1,3 @@
-"use client"
-
 import { useTranslations } from "next-intl"
 
 import FormSkelton from "@/components/Dashboard/Loading/form-skelton"
