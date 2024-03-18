@@ -20,7 +20,7 @@ export default async function LoginPage() {
         )}
       >
         <>
-          <Icons.chevronLeft className="mr-2 size-4" />
+          <Icons.chevronLeft className="size-4" />
         </>
       </Link>
       <div className="flex flex-col items-center justify-center lg:flex-row">
