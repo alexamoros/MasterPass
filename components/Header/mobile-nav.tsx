@@ -1,5 +1,6 @@
 import * as React from "react"
 import Link from "next/link"
+import { useTranslations } from "next-intl"
 
 import { NavItemType } from "types"
 import { siteConfig } from "@/config/site"
@@ -18,6 +19,7 @@ export function MobileNav({
   setShowMobileMenu,
   children,
 }: MobileNavProps) {
+  const t = useTranslations("home")
   useLockBody()
 
   return (
@@ -42,7 +44,7 @@ export function MobileNav({
               )}
               onClick={() => setShowMobileMenu(false)}
             >
-              {item.title}
+              {t(item.title)}
             </Link>
           ))}
         </nav>
