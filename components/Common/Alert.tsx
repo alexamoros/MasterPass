@@ -11,7 +11,7 @@ type props = {
 const AlertMenu = ({ title, description, variant, Icon }: props) => {
   return (
     <Alert variant={variant}>
-      <Icon className="h-4 w-4" />
+      <Icon className="size-4" />
       <AlertTitle>{title}</AlertTitle>
       <AlertDescription>{description}</AlertDescription>
     </Alert>

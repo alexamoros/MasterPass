@@ -37,9 +37,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         disabled={isGitHubLoading || isGoogleLoading}
       >
         {isGitHubLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          <Icons.spinner className="mr-2 size-4 animate-spin" />
         ) : (
-          <Icons.gitHub className="mr-2 h-4 w-4" />
+          <Icons.gitHub className="mr-2 size-4" />
         )}{" "}
         Github
       </button>
@@ -53,9 +53,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
         disabled={isGitHubLoading || isGoogleLoading}
       >
         {isGoogleLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          <Icons.spinner className="mr-2 size-4 animate-spin" />
         ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
+          <Icons.google className="mr-2 size-4" />
         )}
         {"  "}
         Google

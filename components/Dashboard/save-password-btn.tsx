@@ -16,7 +16,7 @@ export function SavePasswordButton({ className, variant }: SavePasswordButton) {
       href={"/dashboard/save/encrypt"}
       className={cn(buttonVariants({ variant }), className)}
     >
-      <Icons.add className="mr-2 h-4 w-4" />
+      <Icons.add className="mr-2 size-4" />
       {t("new_btn")}
     </Link>
   )
