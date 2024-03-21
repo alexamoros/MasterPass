@@ -19,6 +19,7 @@ export const getPasswords = async () => {
         id: true,
         username: true,
         updatedAt: true,
+        website: true,
         encryptedPassword: true,
       },
       where: {

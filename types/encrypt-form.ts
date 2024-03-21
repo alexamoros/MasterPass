@@ -44,6 +44,7 @@ export const passwordTableSchema = z.object({
   id: z.string(),
   username: z.string(),
   updatedAt: z.string(),
+  website: z.string(),
   encryptedPassword: z.string(),
 })
 
