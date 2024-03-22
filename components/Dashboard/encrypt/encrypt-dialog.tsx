@@ -123,7 +123,7 @@ const EncryptDIalog = ({
       </Button>
 
       <DialogPortal container={document.body}>
-        <DialogContent onCloseAutoFocus={onClose}>
+        <DialogContent onCloseAutoFocus={onClose} className="left-0 top-0">
           <DialogHeader>
             <DialogTitle>{t("encrypt")}</DialogTitle>
             <DialogDescription>{t("encrypt_description")}</DialogDescription>
