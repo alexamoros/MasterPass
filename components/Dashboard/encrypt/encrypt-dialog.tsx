@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { DialogPortal } from "@radix-ui/react-dialog"
 import { useTranslations } from "next-intl"
 import { useForm } from "react-hook-form"
 import * as z from "zod"
@@ -122,42 +121,43 @@ const EncryptDIalog = ({
         </DialogTrigger>
       </Button>
 
-      <DialogPortal container={document.body}>
-        <DialogContent onCloseAutoFocus={onClose} className="left-0 top-0">
-          <DialogHeader>
-            <DialogTitle>{t("encrypt")}</DialogTitle>
-            <DialogDescription>{t("encrypt_description")}</DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="items-center gap-4">
-              <Form {...form}>
-                <FormField
-                  control={form.control}
-                  name="masterPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>MasterPass</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder={t("masterpass_placeholder")}
-                          type={"password"}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <DialogFooter>
-                  <Button type="button" className="mt-6" onClick={onSubmit}>
-                    {action === actions.encrypt ? t("encrypt") : t("decrypt")}
-                  </Button>
-                </DialogFooter>
-              </Form>
-            </div>
+      <DialogContent
+        onCloseAutoFocus={onClose}
+        className="left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+      >
+        <DialogHeader>
+          <DialogTitle>{t("encrypt")}</DialogTitle>
+          <DialogDescription>{t("encrypt_description")}</DialogDescription>
+        </DialogHeader>
+        <div className="grid gap-4 py-4">
+          <div className="items-center gap-4">
+            <Form {...form}>
+              <FormField
+                control={form.control}
+                name="masterPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>MasterPass</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder={t("masterpass_placeholder")}
+                        type={"password"}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <DialogFooter>
+                <Button type="button" className="mt-6" onClick={onSubmit}>
+                  {action === actions.encrypt ? t("encrypt") : t("decrypt")}
+                </Button>
+              </DialogFooter>
+            </Form>
           </div>
-        </DialogContent>
-      </DialogPortal>
+        </div>
+      </DialogContent>
     </Dialog>
   )
 }
