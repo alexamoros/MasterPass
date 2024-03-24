@@ -33,7 +33,7 @@ export default async function DashboardLayout({
           />
         </DashboardHeader>
       </header>
-      <div className="container grid flex-1 gap-12 md:grid-cols-[200px_1fr]">
+      <div className="container grid flex-1 gap-12 p-3 md:grid-cols-[200px_1fr]">
         <aside className="hidden w-[200px] flex-col md:flex">
           <DashboardNav items={dashboardSideItems} />
         </aside>
