@@ -20,6 +20,7 @@ import {
   MoreVertical,
   Pizza,
   Plus,
+  RefreshCcw,
   Settings,
   SunMedium,
   Trash,
@@ -54,6 +55,7 @@ export const Icons = {
   password: FileLock,
   eyeOff: EyeOff,
   eyeOn: Eye,
+  refresh: RefreshCcw,
   save: ({ ...props }: LucideProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
