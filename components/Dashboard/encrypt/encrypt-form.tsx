@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
+import { generatePassword } from "@/actions/generate-password"
 import { getPassword } from "@/actions/get-password"
 import { savePassword } from "@/actions/save-password"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -24,6 +25,12 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import AlertMenu from "@/components/Common/Alert"
 import { Icons } from "@/components/icons"
 
@@ -136,6 +143,11 @@ export const EncryptionForm = ({ action, id }: props) => {
     }
   }
 
+  const generatePasswordForm = () => {
+    const generatedPassword = generatePassword()
+    form.setValue("encryptedPassword", generatedPassword)
+  }
+
   const setPassword = (Password: string) => {
     form.setValue("encryptedPassword", Password)
     setIsTouched(false)
@@ -224,18 +236,45 @@ export const EncryptionForm = ({ action, id }: props) => {
                             placeholder={t("password_placeholder")}
                             type={isPasswordShow ? "text" : "password"}
                             {...field}
+                            className="mr-4"
                           />
-                          {!isPasswordShow ? (
-                            <Icons.eyeOff
-                              onClick={() => SetPasswordShow(true)}
-                              className="ml-4 rounded-lg hover:bg-slate-500"
-                            />
-                          ) : (
-                            <Icons.eyeOn
-                              onClick={() => SetPasswordShow(false)}
-                              className="ml-4 rounded-lg hover:bg-slate-500"
-                            />
-                          )}
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger type="button">
+                                {!isPasswordShow ? (
+                                  <Icons.eyeOff
+                                    onClick={() => SetPasswordShow(true)}
+                                    className="cursor-pointer rounded-lg hover:bg-slate-500"
+                                  />
+                                ) : (
+                                  <Icons.eyeOn
+                                    onClick={() => SetPasswordShow(false)}
+                                    className="cursor-pointer rounded-lg hover:bg-slate-500"
+                                  />
+                                )}
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>
+                                  {isPasswordShow
+                                    ? t("hide_password")
+                                    : t("show_password")}
+                                </p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                          <TooltipProvider>
+                            <Tooltip>
+                              <TooltipTrigger type="button">
+                                <Icons.refresh
+                                  onClick={generatePasswordForm}
+                                  className="ml-2 rounded-lg hover:bg-slate-500"
+                                />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>{t("generate_password_tooltip")}</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
                         </div>
                       </FormControl>
                       <FormMessage />
