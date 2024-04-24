@@ -8,7 +8,7 @@ export const formSchema = z.object({
     .max(50, {
       message: "Too lengthy website address.",
     })
-    .optional(),
+    .url("Invalid website"),
   username: z
     .string()
     .min(1, {

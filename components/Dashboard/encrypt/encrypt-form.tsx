@@ -215,10 +215,23 @@ export const EncryptionForm = ({ action, id }: props) => {
                   control={form.control}
                   name="website"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className="relative">
                       <FormLabel>{t("website")}</FormLabel>
                       <FormControl>
-                        <Input placeholder="Facebook" {...field} />
+                        <div className="relative">
+                          <label
+                            htmlFor="website"
+                            className="absolute left-2 top-2 size-4 text-muted-foreground"
+                          >
+                            https://
+                          </label>
+                          <Input
+                            id="website"
+                            className="pl-16"
+                            placeholder="masterpassv2.vercel.app"
+                            {...field}
+                          />
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
